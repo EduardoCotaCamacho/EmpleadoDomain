@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-ma
         <result property="value" column="id"/>
     </resultMap>
       
-    <resultMap id="ResultEmpleado" type="Empleado1">
+    <resultMap id="ResultEmpleado" type="Empleado">
         <result property="id" column="id"/>
         <result property="fecha_elaboracion" column="fecha_elaboracion"/>
         <result property="fecha_modificacion" column="fecha_modificacion"/>
