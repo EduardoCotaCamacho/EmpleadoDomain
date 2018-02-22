@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Usuario">
+
+    <resultMap id="ResultUsuarioID" type="Integer">
+        <result property="value" column="id"/>
+    </resultMap>
+
+    <resultMap id="ResultUsuario" type="Usuario">
+        <result property="id" column="id"/>
+        <result property="nombre" column="nombre"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="unidad" column="unidad"/>
+        <result property="rol" column="rol"/>
+    </resultMap>
+
+    <select id="UsuarioSelectMaxID" resultMap="ResultUsuarioID">
+        SELECT max(id)+1 as id
+        FROM usuario 
+    </select>
+    
+    <insert id="UsuarioInsert" parameterType="Usuario" useGeneratedKeys="true" keyProperty="id">
+
+        INSERT INTO usuario 
+        (nombre,username,password,unidad,rol)
+        VALUES
+        (#{nombre},#{username},#{password},#{unidad},#{rol})
+        
+        <selectKey keyProperty="id" resultType="Integer" order="AFTER" > 
+              SELECT MAX(id) FROM usuario 
+        </selectKey>
+    </insert>
+    
+    <update id="UsuarioUpdate" parameterType="Usuario">
+        UPDATE usuario 
+        SET nombre = #{nombre} ,username = #{username} ,password = #{password} ,unidad = #{unidad} ,rol = #{rol} 
+        WHERE id = #{id}
+    </update>
+    
+    <delete id="UsuarioDelete" parameterType="map">
+        DELETE FROM usuario 
+        WHERE id = #{id}
+    </delete>
+    
+    <select id="UsuarioWhere" parameterType="String" resultMap="ResultUsuario">
+        SELECT *
+        FROM usuario 
+        ${where} 
+        ${group} 
+        ${order}
+    </select>
+
+</mapper>

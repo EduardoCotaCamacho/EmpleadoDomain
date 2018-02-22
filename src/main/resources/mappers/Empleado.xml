@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Empleado">
+
+    <resultMap id="ResultEmpleadoID" type="Integer">
+        <result property="value" column="id"/>
+    </resultMap>
+      
+    <resultMap id="ResultEmpleado" type="Empleado">
+        <result property="id" column="id"/>
+        <result property="fecha_elaboracion" column="fecha_elaboracion"/>
+        <result property="fecha_modificacion" column="fecha_modificacion"/>
+        <result property="empresa_id" column="empresa_id"/>
+        <result property="empresa" column="empresa"/>
+        <result property="unidad_id" column="unidad_id"/>
+        <result property="unidad" column="unidad"/>
+        <result property="usuario_id" column="usuario_id"/>
+        <result property="usuario" column="usuario"/>
+        <result property="activo" column="activo"/>
+        <result property="fecha_ingreso" column="fecha_ingreso"/>
+        <result property="fecha_baja" column="fecha_baja"/>
+        <result property="razon_baja" column="razon_baja"/>
+        <result property="nss" column="nss"/>
+        <result property="nombre" column="nombre"/>
+        <result property="apellido_paterno" column="apellido_paterno"/>
+        <result property="apellido_materno" column="apellido_materno"/>
+        <result property="rfc" column="rfc"/>
+        <result property="curp" column="curp"/>
+        <result property="correo_grucas" column="correo_grucas"/>
+        <result property="correo_personal" column="correo_personal"/>
+        <result property="numero_de_telefono" column="numero_de_telefono"/>
+        <result property="celular" column="celular"/>
+        <result property="direccion" column="direccion"/>
+        <result property="colonia" column="colonia"/>
+        <result property="ciudad" column="ciudad"/>
+        <result property="estado" column="estado"/>
+        <result property="pais" column="pais"/>
+        <result property="cp" column="cp"/>
+        <result property="fecha_nacimiento" column="fecha_nacimiento"/>
+        <result property="puesto" column="puesto"/>
+        <result property="departamento" column="departamento"/>
+        <result property="dias_vacaciones_restantes" column="dias_vacaciones_restantes"/>
+        <result property="dias_vacaciones_usados" column="dias_vacaciones_usados"/>
+        <result property="accesos_sistemas" column="accesos_sistemas"/>
+    </resultMap>
+
+    <select id="EmpleadoMaxID" resultMap="ResultEmpleadoID">
+        SELECT max(id)+1 as id
+        FROM empleado 
+    </select>
+    
+    <insert id="EmpleadoInsert" parameterType="Empleado" useGeneratedKeys="true" keyProperty="id">
+        
+        INSERT INTO empleado
+        (fecha_elaboracion,fecha_modificacion,empresa_id,empresa,unidad_id,
+        unidad,usuario_id,usuario,activo,fecha_ingreso,fecha_baja,razon_baja,
+        nss,nombre,apellido_paterno,apellido_materno,rfc,curp,correo_grucas,
+        correo_personal,numero_de_telefono,celular,direccion,colonia,ciudad,
+        estado,pais,cp,fecha_nacimiento,puesto,departamento,dias_vacaciones_restantes,
+        dias_vacaciones_usados,accesos_sistemas)
+        VALUES
+        (#{fecha_elaboracion},#{fecha_modificacion},#{empresa_id},#{empresa},#{unidad_id},
+        #{unidad},#{usuario_id},#{usuario},#{activo},#{fecha_ingreso},#{fecha_baja},#{razon_baja},
+        #{nss},#{nombre},#{apellido_paterno},#{apellido_materno},#{rfc},#{curp},#{correo_grucas},
+        #{correo_personal},#{numero_de_telefono},#{celular},#{direccion},#{colonia},#{ciudad},
+        #{estado},#{pais},#{cp},#{fecha_nacimiento},#{puesto},#{departamento},#{dias_vacaciones_restantes},
+        #{dias_vacaciones_usados},#{accesos_sistemas});
+
+        <selectKey keyProperty="id" resultType="Integer" order="AFTER" > 
+              SELECT MAX(id) FROM empleado 
+        </selectKey>
+    </insert>
+    
+    <update id="EmpleadoUpdate" parameterType="Empleado">
+       
+        UPDATE empleado
+        SET fecha_elaboracion = #{fecha_elaboracion},fecha_modificacion = #{fecha_modificacion},
+        empresa_id = #{empresa_id},empresa = #{empresa},unidad_id = #{unidad_id},unidad = #{unidad},
+        usuario_id = #{usuario_id},usuario = #{usuario},activo = #{activo},fecha_ingreso = #{fecha_ingreso},
+        fecha_baja = #{fecha_baja},razon_baja = #{razon_baja},nss = #{nss},nombre = #{nombre},
+        apellido_paterno = #{apellido_paterno},apellido_materno = #{apellido_materno},
+        rfc = #{rfc},curp = #{curp},correo_grucas = #{correo_grucas},correo_personal = #{correo_personal},
+        numero_de_telefono = #{numero_de_telefono},celular = #{celular},direccion = #{direccion},
+        colonia = #{colonia},ciudad = #{ciudad},estado = #{estado},pais = #{pais},cp = #{cp},
+        fecha_nacimiento = #{fecha_nacimiento},puesto =#{puesto},
+        departamento = #{departamento},dias_vacaciones_restantes = #{dias_vacaciones_restantes},
+        dias_vacaciones_usados = #{dias_vacaciones_usados},accesos_sistemas = #{accesos_sistemas}
+        WHERE id = #{id}
+
+    </update>
+    
+    <delete id="EmpleadoDelete" parameterType="map">
+        DELETE FROM empleado 
+        WHERE id = #{id}
+    </delete>
+    
+    <select id="EmpleadoWhere" parameterType="map" resultMap="ResultEmpleado">
+        SELECT *
+        FROM empleado 
+        ${where} 
+        ${group} 
+        ${order}
+    </select>
+    
+</mapper>
